@@ -6,6 +6,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Alert,
+  AccessibilityInfo,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -105,6 +106,14 @@ export default function AddModalScreen() {
   };
   const theme = useTheme();
 
+  useEffect(() => {
+    AccessibilityInfo.isScreenReaderEnabled().then((enabled) => {
+      if (enabled) {
+        AccessibilityInfo.announceForAccessibility("Add New Counter screen opened");
+      }
+    });
+  }, []);
+
   const handleFlingDirection = (direction: "left" | "right") => {
     if (direction === "right") {
       setType("countup");
@@ -180,6 +189,8 @@ export default function AddModalScreen() {
       end={{ x: 0, y: 0 }}
       // Apply modal styles here directly to the content wrapper
       style={[styles.addgradient, styles.modalContentWrapper]} // Add modalContentWrapper
+      accessibilityViewIsModal={true}
+      accessible={true}
     >
       <View style={{ marginTop: 100, marginBottom: 5 }}>
         <Icon source={"timer-sand-empty"} size={100} color={"#E0E0E0"} />
@@ -213,6 +224,8 @@ export default function AddModalScreen() {
               ]}
               onPress={() => setType("countup")}
               style={[styles.topbtn, styles.transparentButton]}
+              accessibilityLabel="Select countup"
+              accessibilityRole="button"
             >
               Countup
             </Button>
@@ -227,6 +240,8 @@ export default function AddModalScreen() {
               ]}
               onPress={() => setType("countdown")}
               style={[styles.topbtn, styles.transparentButton]}
+              accessibilityLabel="Select countdown"
+              accessibilityRole="button"
             >
               Countdown
             </Button>
@@ -241,6 +256,8 @@ export default function AddModalScreen() {
             activeUnderlineColor="#000"
             mode="flat"
             style={[styles.modalInput, { backgroundColor: "" }]}
+            accessibilityLabel="Counter name"
+            accessibilityHint="Enter a name for the new counter"
           />
           <Button
             style={[
@@ -253,6 +270,8 @@ export default function AddModalScreen() {
             mode="elevated"
             elevation={5}
             onPress={showDatepicker}
+            accessibilityLabel={date ? `Selected date ${date.toLocaleDateString()}` : "Select date"}
+            accessibilityRole="button"
           >
             {date ? date.toLocaleString() : "Select Date"}
           </Button>
@@ -268,6 +287,8 @@ export default function AddModalScreen() {
             mode="elevated"
             elevation={5}
             onPress={showTimepicker}
+            accessibilityLabel="Change time"
+            accessibilityRole="button"
           >
             Change Time
           </Button>
@@ -295,6 +316,8 @@ export default function AddModalScreen() {
                 },
               ]}
               labelStyle={styles.buttonLabel}
+              accessibilityLabel="Cancel adding counter"
+              accessibilityRole="button"
             >
               Cancel
             </Button>
@@ -308,6 +331,8 @@ export default function AddModalScreen() {
                 },
               ]}
               labelStyle={styles.buttonLabel}
+              accessibilityLabel="Add counter"
+              accessibilityRole="button"
             >
               Add
             </Button>
