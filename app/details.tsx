@@ -218,7 +218,12 @@ export default function Details() {
 
         {type === "countup" && (
           <>
-            <TouchableOpacity onPress={() => setIsVisible(true)}>
+            <TouchableOpacity
+              onPress={() => setIsVisible(true)}
+              accessibilityLabel="Edit counter"
+              accessibilityRole="button"
+              accessibilityHint="Open edit dialog for this counter"
+            >
               <View style={styles.btnTxtWrapper}>
                 <Icon source="pencil" size={18} color="#000" />
                 <Text style={styles.gradientText}>EDIT</Text>

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
+  AccessibilityInfo,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
@@ -41,6 +42,16 @@ export default function EditModal({
   const [name, setName] = useState<string>();
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (isVisible) {
+      AccessibilityInfo.isScreenReaderEnabled().then((enabled) => {
+        if (enabled) {
+          AccessibilityInfo.announceForAccessibility("Edit counter dialog opened");
+        }
+      });
+    }
+  }, [isVisible]);
 
   async function editCounter(id: string) {
     const data = await AsyncStorage.getItem(STORAGE_KEY);
@@ -79,6 +90,8 @@ export default function EditModal({
         start={{ x: 1, y: 1 }}
         end={{ x: 1, y: 0 }}
         style={styles.modalContentWrapper}
+        accessibilityViewIsModal={true}
+        accessible={true}
       >
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"} // 'height' is often more reliable than 'position' for Android
@@ -99,6 +112,8 @@ export default function EditModal({
                 placeholderTextColor="#000"
                 style={[{ backgroundColor: "" }]}
                 textColor="#000"
+                accessibilityLabel="Edit counter name"
+                accessibilityHint="Enter a new name for the selected counter"
               />
             </View>
 
@@ -116,6 +131,8 @@ export default function EditModal({
                 style={styles.modalButton}
                 labelStyle={styles.buttonLabel}
                 onPress={() => onClose()}
+                accessibilityLabel="Cancel editing"
+                accessibilityRole="button"
               >
                 {/* <Icon source="cancel" size={35} color="black" /> */}
                 cancel
@@ -126,6 +143,8 @@ export default function EditModal({
                 style={styles.modalButton}
                 labelStyle={styles.buttonLabel}
                 onPress={() => editCounter(id)}
+                accessibilityLabel="Save changes"
+                accessibilityRole="button"
               >
                 {/* <Icon source="check" size={35} color="black" /> */}
                 Ok

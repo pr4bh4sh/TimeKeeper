@@ -344,6 +344,10 @@ export default function Index() {
           }}
           onLongPress={() => handleArchiveToggle(item.id)}
           delayLongPress={1000}
+          accessibilityRole="button"
+          accessibilityLabel={`Open details for ${item.name}`}
+          accessibilityHint="Opens the details view for this counter"
+          accessible={true}
         >
           <View style={styles.cardContainer}>
             <LinearGradient
@@ -392,6 +396,10 @@ export default function Index() {
                       size={18}
                       style={styles.notificationIcon}
                       iconColor={"rgba(0, 0, 0, 0.6)"}
+                      accessibilityLabel={item.hasNotification ? "Notification enabled" : "Notification disabled"}
+                      accessibilityRole="button"
+                      accessibilityHint="Manage notification for this counter"
+                      hitSlop={{ top: 8, left: 8, right: 8, bottom: 8 }}
                     />
                   )}
 
@@ -402,6 +410,10 @@ export default function Index() {
                     onPress={() => handleDeleteCounter(item.id)}
                     iconColor={theme.colors.onPrimary}
                     style={styles.deleteIcon}
+                    accessibilityLabel={`Delete ${item.name}`}
+                    accessibilityRole="button"
+                    accessibilityHint="Deletes this counter permanently"
+                    hitSlop={{ top: 8, left: 8, right: 8, bottom: 8 }}
                   />
                 </View>
               ) : (
@@ -435,6 +447,10 @@ export default function Index() {
                     onPress={() => handleDeleteCounter(item.id)}
                     iconColor={theme.colors.onPrimary}
                     style={styles.deleteIcon}
+                    accessibilityLabel={`Delete ${item.name}`}
+                    accessibilityRole="button"
+                    accessibilityHint="Deletes this counter permanently"
+                    hitSlop={{ top: 8, left: 8, right: 8, bottom: 8 }}
                   />
                   <Text
                     style={[styles.hoursMinutesSecondsNumber, { fontSize: 30 }]}
@@ -495,7 +511,12 @@ export default function Index() {
         elevated={false}
         style={{ backgroundColor: theme.colors.background }}
       >
-        <Appbar.Action icon="theme-light-dark" onPress={() => toggleTheme()} />
+        <Appbar.Action
+          icon="theme-light-dark"
+          onPress={() => toggleTheme()}
+          accessibilityLabel="Toggle theme"
+          accessibilityRole="button"
+        />
         <Appbar.Content title="" />
         <Appbar.Action
           icon="plus"
@@ -504,6 +525,8 @@ export default function Index() {
             // Removed direct modal state management
             router.push("/add.modal"); // Navigate to the add.modal screen
           }}
+          accessibilityLabel="Add counter"
+          accessibilityRole="button"
         />
       </Appbar.Header>
 
@@ -517,6 +540,8 @@ export default function Index() {
             },
           ]}
           onPress={() => setCurrentView("current")}
+          accessibilityLabel="Show current counters"
+          accessibilityRole="button"
           style={[
             styles.topbtn,
             styles.transparentButton,
@@ -536,6 +561,8 @@ export default function Index() {
             },
           ]}
           onPress={() => setCurrentView("archive")}
+          accessibilityLabel="Show archived counters"
+          accessibilityRole="button"
           style={[
             { borderColor: "#000" },
             styles.topbtn,
